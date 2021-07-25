@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "one_tab_sort_unique",
+    "version": "1.0.0",
+    "description": "One tab sort unique Chrome Extension",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_title": "sort unique"
+    },
+    "permissions": [
+      "tabs"
+    ]
+}
+
