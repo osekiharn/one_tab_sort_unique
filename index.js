@@ -1,12 +1,16 @@
 const ul = document.querySelector('.ul');
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+const createBookmarkBtn = document.querySelector('.create-bookmark-button');
+
+chrome.runtime.onMessage.addListener((message, _, __) => {
     const title = document.head.getElementsByTagName('title')[0]
     const now = new Date();
-    title.innerHTML = `${now.getFullYear()}/${(now.getMonth() + 1)}/${now.getDate()}`
+    const datetime = `${now.getFullYear()}${('00' + (now.getMonth() + 1)).slice(-2)}${('00' + now.getDate()).slice(-2)}`
+    title.innerHTML =  datetime
     message.forEach(msg => {
         const { id, favIconUrl, title, url } = msg
         generateList({ id, favIconUrl, title, url })
     })
+    createBookmarkBtn.addEventListener('click', createBookmark(datetime, message))
 })
 
 function generateList ({ id, favIconUrl, title, url }) {
@@ -23,4 +27,15 @@ function generateList ({ id, favIconUrl, title, url }) {
     li.appendChild(img)
     li.appendChild(a)
     ul.appendChild(li)
+}
+
+// 日付のブックマークフォルダに保存
+function createBookmark(title, message) {
+    return function() {
+        chrome.bookmarks.create({ title }, (parent) => {
+            message.forEach(async (msg) => {
+                await chrome.bookmarks.create({ parentId: parent.id, title: msg.title, url: msg.url })
+            })
+        })
+    }
 }

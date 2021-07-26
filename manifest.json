@@ -10,7 +10,8 @@
         "default_title": "sort unique"
     },
     "permissions": [
-      "tabs"
+      "tabs",
+      "bookmarks"
     ]
 }
 

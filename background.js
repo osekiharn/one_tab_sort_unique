@@ -75,6 +75,6 @@ function chunk(array, divide) {
             return quotient
         }
     })
-    return result.map((x, i) => array.splice(0, x));
+    return result.map((x, _) => array.splice(0, x));
 }
 
