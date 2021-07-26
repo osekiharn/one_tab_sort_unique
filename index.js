@@ -30,12 +30,10 @@ function generateList ({ id, favIconUrl, title, url }) {
 }
 
 // 日付のブックマークフォルダに保存
-function createBookmark(title, message) {
-    return function() {
-        chrome.bookmarks.create({ title }, (parent) => {
-            message.forEach(async (msg) => {
-                await chrome.bookmarks.create({ parentId: parent.id, title: msg.title, url: msg.url })
-            })
+const createBookmark = (title, message) => () => {
+    chrome.bookmarks.create({ title }, (parent) => {
+        message.forEach(async (msg) => {
+            await chrome.bookmarks.create({ parentId: parent.id, title: msg.title, url: msg.url })
         })
-    }
+    })
 }
